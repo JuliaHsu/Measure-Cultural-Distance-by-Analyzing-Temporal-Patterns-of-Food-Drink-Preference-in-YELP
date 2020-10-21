@@ -81,34 +81,35 @@ def add_price_att():
 def get_tf_idf(rest_word_feq_df):
     # tf
     # tf = rest_word_feq_df.apply(lambda x: get_term_freq(x))
-    
-    tf = rest_word_feq_df.div(rest_word_feq_df.sum(axis = 0),axis = 1)
+    rest_word_feq_df = rest_word_feq_df.fillna(0)
+    tf = rest_word_feq_df.div(rest_word_feq_df.sum(axis = 1),axis = 0)
     # tf = tf.div(tf.sum(axis = 1),axis = 0)
-    tf = tf.round(4)
-    tf = tf.fillna(0)
+    # tf = tf.round(4)
+    tf.dropna(inplace = True)
     tf[tf.columns] = np.log(tf[tf.columns]+1)
-    
     # idf   
+    rest_word_feq_df = rest_word_feq_df.loc[tf.index]
     idf = rest_word_feq_df
-    idf[idf.columns] = (rest_word_feq_df.shape[0])/ (idf[idf.columns] +1)
-    
-    idf[idf.columns] = np.log(idf[idf.columns])
+    idf = np.log((rest_word_feq_df.shape[0])/(rest_word_feq_df.astype(bool).sum(axis=0)+1))
+    # idf[idf.columns] = (rest_word_feq_df.shape[0])/ (idf[idf.columns] +1)
+    # idf[idf.columns] = np.log(idf[idf.columns])
     # print(idf)
     rest_tf_idf = pd.DataFrame(tf.values * idf.values, columns = rest_word_feq_df.columns, index = rest_word_feq_df.index)
     # print(rest_tf_idf[rest_tf_idf.isna().any(axis=1)])
+    print(rest_tf_idf)
     rest_tf_idf.to_csv(PROCESSED_DATA + 'rest_tf_idf.csv')
     return rest_tf_idf
 
 def k_means_rest(rest_bag_of_word_price):
     # initialize 
-    y_kmeans = np.zeros((rest_bag_of_word_price.shape[0],10))
+    y_kmeans = np.zeros((rest_bag_of_word_price.shape[0],16))
     sse_res_ls = []
     sil_score_ls = []
     distortions = []
     pca_rest = pca(rest_bag_of_word_price)
-    # for k in range(12,32,2):
+    # for k in range(20,52,2):
     #     kmeans_cluster = KMeans(n_clusters=k,random_state=42).fit(pca_rest)
-    #     step = int((k-12)/2)
+    #     step = int((k-20)/2)
     #     y_kmeans[:,step] = kmeans_cluster.predict(pca_rest)
     #     centroids = kmeans_cluster.cluster_centers_
     #     sse_res_ls.append(compute_sse(pca_rest,y_kmeans[:,step],centroids, k))
@@ -120,6 +121,8 @@ def k_means_rest(rest_bag_of_word_price):
 
     # plot_sse(sse_res_ls)
     # plot_elbow(distortions)
+
+
     kmeans_cluster = KMeans(n_clusters=26,random_state=42).fit(pca_rest)
     category = kmeans_cluster.predict(pca_rest)
     rest_cat = pd.DataFrame(category, columns=['category'],index = rest_bag_of_word_price.index.values.tolist()) 
@@ -180,7 +183,7 @@ def get_sil_score(data, predicted):
 
 def plot_sse(sse_res):
     plt.figure()
-    x = list(range(12,32,2))
+    x = list(range(20,52,2))
     plt.plot(x, sse_res,'bx-')
     plt.xticks(np.arange(min(x), max(x)+1, 2.0))
     plt.xlabel("K")
@@ -190,7 +193,7 @@ def plot_sse(sse_res):
 def plot_elbow(distortions):
     plt.figure()
     filename="kmeans_elbow"
-    x = list(range(12,32,2))
+    x = list(range(20,52,2))
     plt.plot(x, distortions, 'bx-')
     plt.xticks(np.arange(min(x), max(x)+1, 2.0))
     plt.xlabel('K')
@@ -229,7 +232,7 @@ def most_freq_word_cat():
 
 
 
-# rest_bag_of_word_price = add_price_att()
-# k_means_rest(rest_bag_of_word_price)
+rest_bag_of_word_price = add_price_att()
+k_means_rest(rest_bag_of_word_price)
 most_freq_word_cat()
 
