@@ -33,17 +33,17 @@ Northern America and draws neighborhood map which clearly demarcates the boundar
 #### Follow below instructions to reproduce the project
 
 1. Convert json to csv and join tables
-    **`json_to_csv.py`**
+    **`./src/json_to_csv.py`**
     * convert business, reviews, and chekin json files to csv files
     * filter out businesses that are not restaurant
 
-    **`join_tables.py`**
+    **`./src/join_tables.py`**
     * join restaurant and checkin tables
     * join restaurant and review tables
 
 2. Detect business outliers and categorize restaurants based on business tags
 
-    **`root_clustering.py`**
+    **`./src/root_clustering.py`**
 
     ```
     # functions for detecting business outliers, where K = 32
@@ -60,9 +60,9 @@ Northern America and draws neighborhood map which clearly demarcates the boundar
     filtered_rest_vec = get_rest_tag_vec(filtered_tags, filtered_rest)
     k_means_rest_root(filtered_rest_vec, NUM_CLUSTERS = 15)
     ```
-2. Relevant features extraction
+3. Relevant features extraction
 
-    **`feature_extraction.py`**
+    **`./src/feature_extraction.py`**
 
     ```
     python3 feature_extraction.py
@@ -70,9 +70,9 @@ Northern America and draws neighborhood map which clearly demarcates the boundar
 
 
 
-3. Categorize restaurants based on relevant features
+4. Categorize restaurants based on relevant features
 
-    **`restaurant_clustering.py`**
+    **`./src/restaurant_clustering.py`**
 
     #### Determine number of clusters K
     Use elbow method to determine number of clusters
