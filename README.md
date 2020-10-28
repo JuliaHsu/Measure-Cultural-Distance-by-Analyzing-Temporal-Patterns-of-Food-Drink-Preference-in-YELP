@@ -7,7 +7,8 @@ Northern America and draws neighborhood map which clearly demarcates the boundar
 #### Dataset and immediate data
 
 * [Yelp academic dataset](https://www.yelp.com/dataset) 
-*  Converted csv files: ``./yelp_dataset/raw/``
+#### Processed Data on OneDrive
+* Converted csv files: ``./yelp_dataset/raw/``
 * Join tables: ``./yelp_dataset/join_table/``
     * ```restaurant_checkin.csv```
     * ``` restaurant_review.csv```
