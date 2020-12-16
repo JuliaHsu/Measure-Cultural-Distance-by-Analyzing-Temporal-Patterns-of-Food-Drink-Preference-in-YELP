@@ -1,0 +1,1829 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="initial-scale=1,user-scalable=no,maximum-scale=1,width=device-width">
+        <meta name="mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <link rel="stylesheet" href="mapbox/mapbox-gl.css">
+        <link rel="stylesheet" href="css/qgis2web.css">
+        <link rel="stylesheet" href="css/leaflet-search.css">
+        <link rel="stylesheet" href="./mapbox/measure.css">
+        <style>
+        html, body, #map {
+            width: 100%;
+            height: 100%;
+            padding: 0;
+            margin: 0;
+        }
+        </style>
+        <title></title>
+    </head>
+    <body>
+        <div id="map">
+            <nav id="menu"></nav>
+              <div id="distance" class="distance-container"></div>
+        </div>
+        <script src="js/qgis2web_expressions.js"></script>
+        <script src="./mapbox/mapbox-gl.js"></script>
+        <script src="js/leaflet-search.js"></script>
+        <script src="data/pittsburgh_0.js"></script>
+        <script src="data/PittsburghNeighCluster_1.js"></script>
+        <script src="data/Joinedlayer_2.js"></script>
+<script src="./mapbox/style.js"></script>
+<script src="./js/Autolinker.min.js"></script>
+<script>
+var map = new mapboxgl.Map({
+ container: 'map',
+ style: styleJSON,
+ center: [-79.980655,40.4313085],
+ zoom: 13,
+ bearing: 360.0,
+ attributionControl: false
+});
+map.addControl(new mapboxgl.NavigationControl(), 'top-left');
+map.addControl(new mapboxgl.AttributionControl({
+    customAttribution: '<a href="https://github.com/tomchadwin/qgis2web" target="_blank">qgis2web</a> &middot; <a href="https://github.com/mapbox/mapbox-gl-js" target="_blank">Mapbox GL JS</a> &middot; <a href="https://qgis.org" target="_blank">QGIS</a>',
+    compact: false
+}));
+var autolinker = new Autolinker({truncate: {length: 30, location: 'smart'}});
+
+map.on('click', 'lyr_pittsburgh_0_0', function (e) {
+    var description = '<table>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['objectid'] !== null ? autolinker.link(e.features[0].properties['objectid'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['hood_no'] !== null ? autolinker.link(e.features[0].properties['hood_no'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['page_numbe'] !== null ? autolinker.link(e.features[0].properties['page_numbe'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['neighborhoods'] !== null ? autolinker.link(e.features[0].properties['neighborhoods'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['planning_sectors'] !== null ? autolinker.link(e.features[0].properties['planning_sectors'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['hood_1'] !== null ? autolinker.link(e.features[0].properties['hood_1'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['acres_1'] !== null ? autolinker.link(e.features[0].properties['acres_1'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['sqmiles_1'] !== null ? autolinker.link(e.features[0].properties['sqmiles_1'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['st_area_shape1_1'] !== null ? autolinker.link(e.features[0].properties['st_area_shape1_1'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['st_length_shape1_1'] !== null ? autolinker.link(e.features[0].properties['st_length_shape1_1'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['created_user'] !== null ? autolinker.link(e.features[0].properties['created_user'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['created_date'] !== null ? autolinker.link(e.features[0].properties['created_date'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['last_edited_user'] !== null ? autolinker.link(e.features[0].properties['last_edited_user'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['last_edited_date'] !== null ? autolinker.link(e.features[0].properties['last_edited_date'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                </table>'
+
+    new mapboxgl.Popup()
+        .setLngLat(e.lngLat)
+        .setHTML(description)
+        .addTo(map);
+});
+
+// Change the cursor to a pointer when the mouse is over the places layer.
+map.on('mouseenter', 'lyr_pittsburgh_0_0', function () {
+    map.getCanvas().style.cursor = 'pointer';
+});
+
+// Change it back to a pointer when it leaves.
+map.on('mouseleave', 'lyr_pittsburgh_0_0', function () {
+    map.getCanvas().style.cursor = '';
+});
+map.on('click', 'lyr_PittsburghNeighCluster_1_0', function (e) {
+    var description = '<table>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['field_1'] !== null ? autolinker.link(e.features[0].properties['field_1'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['field_1_1'] !== null ? autolinker.link(e.features[0].properties['field_1_1'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['Unnamed: 0_x'] !== null ? autolinker.link(e.features[0].properties['Unnamed: 0_x'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['business_id'] !== null ? autolinker.link(e.features[0].properties['business_id'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['sub_category'] !== null ? autolinker.link(e.features[0].properties['sub_category'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['category'] !== null ? autolinker.link(e.features[0].properties['category'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['name'] !== null ? autolinker.link(e.features[0].properties['name'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['categories'] !== null ? autolinker.link(e.features[0].properties['categories'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['attributes.RestaurantsPriceRange2'] !== null ? autolinker.link(e.features[0].properties['attributes.RestaurantsPriceRange2'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['attributes.Ambience'] !== null ? autolinker.link(e.features[0].properties['attributes.Ambience'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['review_count'] !== null ? autolinker.link(e.features[0].properties['review_count'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['address'] !== null ? autolinker.link(e.features[0].properties['address'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['postal_code'] !== null ? autolinker.link(e.features[0].properties['postal_code'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['city_x'] !== null ? autolinker.link(e.features[0].properties['city_x'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['state'] !== null ? autolinker.link(e.features[0].properties['state'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['longitude'] !== null ? autolinker.link(e.features[0].properties['longitude'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['latitude'] !== null ? autolinker.link(e.features[0].properties['latitude'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['objectid'] !== null ? autolinker.link(e.features[0].properties['objectid'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['hood_no'] !== null ? autolinker.link(e.features[0].properties['hood_no'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['page_numbe'] !== null ? autolinker.link(e.features[0].properties['page_numbe'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['neighborhoods'] !== null ? autolinker.link(e.features[0].properties['neighborhoods'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['planning_sectors'] !== null ? autolinker.link(e.features[0].properties['planning_sectors'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['hood_1'] !== null ? autolinker.link(e.features[0].properties['hood_1'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['acres_1'] !== null ? autolinker.link(e.features[0].properties['acres_1'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['sqmiles_1'] !== null ? autolinker.link(e.features[0].properties['sqmiles_1'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['st_area_shape1_1'] !== null ? autolinker.link(e.features[0].properties['st_area_shape1_1'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['st_length_shape1_1'] !== null ? autolinker.link(e.features[0].properties['st_length_shape1_1'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['created_user'] !== null ? autolinker.link(e.features[0].properties['created_user'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['created_date'] !== null ? autolinker.link(e.features[0].properties['created_date'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['last_edited_user'] !== null ? autolinker.link(e.features[0].properties['last_edited_user'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['last_edited_date'] !== null ? autolinker.link(e.features[0].properties['last_edited_date'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['NUMPOINTS'] !== null ? autolinker.link(e.features[0].properties['NUMPOINTS'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['Unnamed: 0_y'] !== null ? autolinker.link(e.features[0].properties['Unnamed: 0_y'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['neighborhood'] !== null ? autolinker.link(e.features[0].properties['neighborhood'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['cluster'] !== null ? autolinker.link(e.features[0].properties['cluster'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['neighborhood_name'] !== null ? autolinker.link(e.features[0].properties['neighborhood_name'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['0_2_t0_weekday'] !== null ? autolinker.link(e.features[0].properties['0_2_t0_weekday'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['0_2_t0_weekend'] !== null ? autolinker.link(e.features[0].properties['0_2_t0_weekend'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['0_2_t1_weekday'] !== null ? autolinker.link(e.features[0].properties['0_2_t1_weekday'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['0_2_t1_weekend'] !== null ? autolinker.link(e.features[0].properties['0_2_t1_weekend'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['0_2_t2_weekday'] !== null ? autolinker.link(e.features[0].properties['0_2_t2_weekday'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['0_2_t2_weekend'] !== null ? autolinker.link(e.features[0].properties['0_2_t2_weekend'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['0_2_t3_weekday'] !== null ? autolinker.link(e.features[0].properties['0_2_t3_weekday'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['0_2_t3_weekend'] !== null ? autolinker.link(e.features[0].properties['0_2_t3_weekend'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['0_0_t0_weekday'] !== null ? autolinker.link(e.features[0].properties['0_0_t0_weekday'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['0_0_t0_weekend'] !== null ? autolinker.link(e.features[0].properties['0_0_t0_weekend'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['0_0_t1_weekday'] !== null ? autolinker.link(e.features[0].properties['0_0_t1_weekday'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['0_0_t1_weekend'] !== null ? autolinker.link(e.features[0].properties['0_0_t1_weekend'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['0_0_t2_weekday'] !== null ? autolinker.link(e.features[0].properties['0_0_t2_weekday'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['0_0_t2_weekend'] !== null ? autolinker.link(e.features[0].properties['0_0_t2_weekend'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['0_0_t3_weekday'] !== null ? autolinker.link(e.features[0].properties['0_0_t3_weekday'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['0_0_t3_weekend'] !== null ? autolinker.link(e.features[0].properties['0_0_t3_weekend'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['0_1_t0_weekday'] !== null ? autolinker.link(e.features[0].properties['0_1_t0_weekday'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['0_1_t0_weekend'] !== null ? autolinker.link(e.features[0].properties['0_1_t0_weekend'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['0_1_t1_weekday'] !== null ? autolinker.link(e.features[0].properties['0_1_t1_weekday'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['0_1_t1_weekend'] !== null ? autolinker.link(e.features[0].properties['0_1_t1_weekend'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['0_1_t2_weekday'] !== null ? autolinker.link(e.features[0].properties['0_1_t2_weekday'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['0_1_t2_weekend'] !== null ? autolinker.link(e.features[0].properties['0_1_t2_weekend'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['0_1_t3_weekday'] !== null ? autolinker.link(e.features[0].properties['0_1_t3_weekday'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['0_1_t3_weekend'] !== null ? autolinker.link(e.features[0].properties['0_1_t3_weekend'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['1_6_t0_weekday'] !== null ? autolinker.link(e.features[0].properties['1_6_t0_weekday'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['1_6_t0_weekend'] !== null ? autolinker.link(e.features[0].properties['1_6_t0_weekend'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['1_6_t1_weekday'] !== null ? autolinker.link(e.features[0].properties['1_6_t1_weekday'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['1_6_t1_weekend'] !== null ? autolinker.link(e.features[0].properties['1_6_t1_weekend'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['1_6_t2_weekday'] !== null ? autolinker.link(e.features[0].properties['1_6_t2_weekday'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['1_6_t2_weekend'] !== null ? autolinker.link(e.features[0].properties['1_6_t2_weekend'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['1_6_t3_weekday'] !== null ? autolinker.link(e.features[0].properties['1_6_t3_weekday'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['1_6_t3_weekend'] !== null ? autolinker.link(e.features[0].properties['1_6_t3_weekend'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['1_0_t0_weekday'] !== null ? autolinker.link(e.features[0].properties['1_0_t0_weekday'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['1_0_t0_weekend'] !== null ? autolinker.link(e.features[0].properties['1_0_t0_weekend'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['1_0_t1_weekday'] !== null ? autolinker.link(e.features[0].properties['1_0_t1_weekday'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['1_0_t1_weekend'] !== null ? autolinker.link(e.features[0].properties['1_0_t1_weekend'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['1_0_t2_weekday'] !== null ? autolinker.link(e.features[0].properties['1_0_t2_weekday'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['1_0_t2_weekend'] !== null ? autolinker.link(e.features[0].properties['1_0_t2_weekend'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['1_0_t3_weekday'] !== null ? autolinker.link(e.features[0].properties['1_0_t3_weekday'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['1_0_t3_weekend'] !== null ? autolinker.link(e.features[0].properties['1_0_t3_weekend'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['1_3_t0_weekday'] !== null ? autolinker.link(e.features[0].properties['1_3_t0_weekday'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['1_3_t0_weekend'] !== null ? autolinker.link(e.features[0].properties['1_3_t0_weekend'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['1_3_t1_weekday'] !== null ? autolinker.link(e.features[0].properties['1_3_t1_weekday'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['1_3_t1_weekend'] !== null ? autolinker.link(e.features[0].properties['1_3_t1_weekend'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['1_3_t2_weekday'] !== null ? autolinker.link(e.features[0].properties['1_3_t2_weekday'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['1_3_t2_weekend'] !== null ? autolinker.link(e.features[0].properties['1_3_t2_weekend'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['1_3_t3_weekday'] !== null ? autolinker.link(e.features[0].properties['1_3_t3_weekday'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['1_3_t3_weekend'] !== null ? autolinker.link(e.features[0].properties['1_3_t3_weekend'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['1_5_t0_weekday'] !== null ? autolinker.link(e.features[0].properties['1_5_t0_weekday'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['1_5_t0_weekend'] !== null ? autolinker.link(e.features[0].properties['1_5_t0_weekend'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['1_5_t1_weekday'] !== null ? autolinker.link(e.features[0].properties['1_5_t1_weekday'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['1_5_t1_weekend'] !== null ? autolinker.link(e.features[0].properties['1_5_t1_weekend'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['1_5_t2_weekday'] !== null ? autolinker.link(e.features[0].properties['1_5_t2_weekday'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['1_5_t2_weekend'] !== null ? autolinker.link(e.features[0].properties['1_5_t2_weekend'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['1_5_t3_weekday'] !== null ? autolinker.link(e.features[0].properties['1_5_t3_weekday'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['1_5_t3_weekend'] !== null ? autolinker.link(e.features[0].properties['1_5_t3_weekend'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['1_4_t0_weekday'] !== null ? autolinker.link(e.features[0].properties['1_4_t0_weekday'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['1_4_t0_weekend'] !== null ? autolinker.link(e.features[0].properties['1_4_t0_weekend'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['1_4_t1_weekday'] !== null ? autolinker.link(e.features[0].properties['1_4_t1_weekday'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['1_4_t1_weekend'] !== null ? autolinker.link(e.features[0].properties['1_4_t1_weekend'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['1_4_t2_weekday'] !== null ? autolinker.link(e.features[0].properties['1_4_t2_weekday'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['1_4_t2_weekend'] !== null ? autolinker.link(e.features[0].properties['1_4_t2_weekend'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['1_4_t3_weekday'] !== null ? autolinker.link(e.features[0].properties['1_4_t3_weekday'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['1_4_t3_weekend'] !== null ? autolinker.link(e.features[0].properties['1_4_t3_weekend'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['1_1_t0_weekday'] !== null ? autolinker.link(e.features[0].properties['1_1_t0_weekday'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['1_1_t0_weekend'] !== null ? autolinker.link(e.features[0].properties['1_1_t0_weekend'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['1_1_t1_weekday'] !== null ? autolinker.link(e.features[0].properties['1_1_t1_weekday'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['1_1_t1_weekend'] !== null ? autolinker.link(e.features[0].properties['1_1_t1_weekend'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['1_1_t2_weekday'] !== null ? autolinker.link(e.features[0].properties['1_1_t2_weekday'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['1_1_t2_weekend'] !== null ? autolinker.link(e.features[0].properties['1_1_t2_weekend'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['1_1_t3_weekday'] !== null ? autolinker.link(e.features[0].properties['1_1_t3_weekday'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['1_1_t3_weekend'] !== null ? autolinker.link(e.features[0].properties['1_1_t3_weekend'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['1_7_t0_weekday'] !== null ? autolinker.link(e.features[0].properties['1_7_t0_weekday'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['1_7_t0_weekend'] !== null ? autolinker.link(e.features[0].properties['1_7_t0_weekend'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['1_7_t1_weekday'] !== null ? autolinker.link(e.features[0].properties['1_7_t1_weekday'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['1_7_t1_weekend'] !== null ? autolinker.link(e.features[0].properties['1_7_t1_weekend'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['1_7_t2_weekday'] !== null ? autolinker.link(e.features[0].properties['1_7_t2_weekday'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['1_7_t2_weekend'] !== null ? autolinker.link(e.features[0].properties['1_7_t2_weekend'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['1_7_t3_weekday'] !== null ? autolinker.link(e.features[0].properties['1_7_t3_weekday'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['1_7_t3_weekend'] !== null ? autolinker.link(e.features[0].properties['1_7_t3_weekend'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['1_8_t0_weekday'] !== null ? autolinker.link(e.features[0].properties['1_8_t0_weekday'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['1_8_t0_weekend'] !== null ? autolinker.link(e.features[0].properties['1_8_t0_weekend'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['1_8_t1_weekday'] !== null ? autolinker.link(e.features[0].properties['1_8_t1_weekday'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['1_8_t1_weekend'] !== null ? autolinker.link(e.features[0].properties['1_8_t1_weekend'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['1_8_t2_weekday'] !== null ? autolinker.link(e.features[0].properties['1_8_t2_weekday'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['1_8_t2_weekend'] !== null ? autolinker.link(e.features[0].properties['1_8_t2_weekend'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['1_8_t3_weekday'] !== null ? autolinker.link(e.features[0].properties['1_8_t3_weekday'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['1_8_t3_weekend'] !== null ? autolinker.link(e.features[0].properties['1_8_t3_weekend'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['1_2_t0_weekday'] !== null ? autolinker.link(e.features[0].properties['1_2_t0_weekday'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['1_2_t0_weekend'] !== null ? autolinker.link(e.features[0].properties['1_2_t0_weekend'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['1_2_t1_weekday'] !== null ? autolinker.link(e.features[0].properties['1_2_t1_weekday'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['1_2_t1_weekend'] !== null ? autolinker.link(e.features[0].properties['1_2_t1_weekend'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['1_2_t2_weekday'] !== null ? autolinker.link(e.features[0].properties['1_2_t2_weekday'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['1_2_t2_weekend'] !== null ? autolinker.link(e.features[0].properties['1_2_t2_weekend'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['1_2_t3_weekday'] !== null ? autolinker.link(e.features[0].properties['1_2_t3_weekday'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['1_2_t3_weekend'] !== null ? autolinker.link(e.features[0].properties['1_2_t3_weekend'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['2_1_t0_weekday'] !== null ? autolinker.link(e.features[0].properties['2_1_t0_weekday'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['2_1_t0_weekend'] !== null ? autolinker.link(e.features[0].properties['2_1_t0_weekend'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['2_1_t1_weekday'] !== null ? autolinker.link(e.features[0].properties['2_1_t1_weekday'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['2_1_t1_weekend'] !== null ? autolinker.link(e.features[0].properties['2_1_t1_weekend'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['2_1_t2_weekday'] !== null ? autolinker.link(e.features[0].properties['2_1_t2_weekday'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['2_1_t2_weekend'] !== null ? autolinker.link(e.features[0].properties['2_1_t2_weekend'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['2_1_t3_weekday'] !== null ? autolinker.link(e.features[0].properties['2_1_t3_weekday'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['2_1_t3_weekend'] !== null ? autolinker.link(e.features[0].properties['2_1_t3_weekend'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['2_2_t0_weekday'] !== null ? autolinker.link(e.features[0].properties['2_2_t0_weekday'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['2_2_t0_weekend'] !== null ? autolinker.link(e.features[0].properties['2_2_t0_weekend'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['2_2_t1_weekday'] !== null ? autolinker.link(e.features[0].properties['2_2_t1_weekday'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['2_2_t1_weekend'] !== null ? autolinker.link(e.features[0].properties['2_2_t1_weekend'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['2_2_t2_weekday'] !== null ? autolinker.link(e.features[0].properties['2_2_t2_weekday'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['2_2_t2_weekend'] !== null ? autolinker.link(e.features[0].properties['2_2_t2_weekend'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['2_2_t3_weekday'] !== null ? autolinker.link(e.features[0].properties['2_2_t3_weekday'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['2_2_t3_weekend'] !== null ? autolinker.link(e.features[0].properties['2_2_t3_weekend'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['2_0_t0_weekday'] !== null ? autolinker.link(e.features[0].properties['2_0_t0_weekday'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['2_0_t0_weekend'] !== null ? autolinker.link(e.features[0].properties['2_0_t0_weekend'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['2_0_t1_weekday'] !== null ? autolinker.link(e.features[0].properties['2_0_t1_weekday'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['2_0_t1_weekend'] !== null ? autolinker.link(e.features[0].properties['2_0_t1_weekend'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['2_0_t2_weekday'] !== null ? autolinker.link(e.features[0].properties['2_0_t2_weekday'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['2_0_t2_weekend'] !== null ? autolinker.link(e.features[0].properties['2_0_t2_weekend'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['2_0_t3_weekday'] !== null ? autolinker.link(e.features[0].properties['2_0_t3_weekday'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['2_0_t3_weekend'] !== null ? autolinker.link(e.features[0].properties['2_0_t3_weekend'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['3_2_t0_weekday'] !== null ? autolinker.link(e.features[0].properties['3_2_t0_weekday'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['3_2_t0_weekend'] !== null ? autolinker.link(e.features[0].properties['3_2_t0_weekend'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['3_2_t1_weekday'] !== null ? autolinker.link(e.features[0].properties['3_2_t1_weekday'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['3_2_t1_weekend'] !== null ? autolinker.link(e.features[0].properties['3_2_t1_weekend'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['3_2_t2_weekday'] !== null ? autolinker.link(e.features[0].properties['3_2_t2_weekday'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['3_2_t2_weekend'] !== null ? autolinker.link(e.features[0].properties['3_2_t2_weekend'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['3_2_t3_weekday'] !== null ? autolinker.link(e.features[0].properties['3_2_t3_weekday'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['3_2_t3_weekend'] !== null ? autolinker.link(e.features[0].properties['3_2_t3_weekend'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['3_0_t0_weekday'] !== null ? autolinker.link(e.features[0].properties['3_0_t0_weekday'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['3_0_t0_weekend'] !== null ? autolinker.link(e.features[0].properties['3_0_t0_weekend'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['3_0_t1_weekday'] !== null ? autolinker.link(e.features[0].properties['3_0_t1_weekday'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['3_0_t1_weekend'] !== null ? autolinker.link(e.features[0].properties['3_0_t1_weekend'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['3_0_t2_weekday'] !== null ? autolinker.link(e.features[0].properties['3_0_t2_weekday'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['3_0_t2_weekend'] !== null ? autolinker.link(e.features[0].properties['3_0_t2_weekend'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['3_0_t3_weekday'] !== null ? autolinker.link(e.features[0].properties['3_0_t3_weekday'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['3_0_t3_weekend'] !== null ? autolinker.link(e.features[0].properties['3_0_t3_weekend'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['3_1_t0_weekday'] !== null ? autolinker.link(e.features[0].properties['3_1_t0_weekday'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['3_1_t0_weekend'] !== null ? autolinker.link(e.features[0].properties['3_1_t0_weekend'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['3_1_t1_weekday'] !== null ? autolinker.link(e.features[0].properties['3_1_t1_weekday'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['3_1_t1_weekend'] !== null ? autolinker.link(e.features[0].properties['3_1_t1_weekend'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['3_1_t2_weekday'] !== null ? autolinker.link(e.features[0].properties['3_1_t2_weekday'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['3_1_t2_weekend'] !== null ? autolinker.link(e.features[0].properties['3_1_t2_weekend'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['3_1_t3_weekday'] !== null ? autolinker.link(e.features[0].properties['3_1_t3_weekday'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['3_1_t3_weekend'] !== null ? autolinker.link(e.features[0].properties['3_1_t3_weekend'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['5_4_t0_weekday'] !== null ? autolinker.link(e.features[0].properties['5_4_t0_weekday'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['5_4_t0_weekend'] !== null ? autolinker.link(e.features[0].properties['5_4_t0_weekend'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['5_4_t1_weekday'] !== null ? autolinker.link(e.features[0].properties['5_4_t1_weekday'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['5_4_t1_weekend'] !== null ? autolinker.link(e.features[0].properties['5_4_t1_weekend'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['5_4_t2_weekday'] !== null ? autolinker.link(e.features[0].properties['5_4_t2_weekday'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['5_4_t2_weekend'] !== null ? autolinker.link(e.features[0].properties['5_4_t2_weekend'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['5_4_t3_weekday'] !== null ? autolinker.link(e.features[0].properties['5_4_t3_weekday'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['5_4_t3_weekend'] !== null ? autolinker.link(e.features[0].properties['5_4_t3_weekend'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['5_5_t0_weekday'] !== null ? autolinker.link(e.features[0].properties['5_5_t0_weekday'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['5_5_t0_weekend'] !== null ? autolinker.link(e.features[0].properties['5_5_t0_weekend'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['5_5_t1_weekday'] !== null ? autolinker.link(e.features[0].properties['5_5_t1_weekday'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['5_5_t1_weekend'] !== null ? autolinker.link(e.features[0].properties['5_5_t1_weekend'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['5_5_t2_weekday'] !== null ? autolinker.link(e.features[0].properties['5_5_t2_weekday'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['5_5_t2_weekend'] !== null ? autolinker.link(e.features[0].properties['5_5_t2_weekend'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['5_5_t3_weekday'] !== null ? autolinker.link(e.features[0].properties['5_5_t3_weekday'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['5_5_t3_weekend'] !== null ? autolinker.link(e.features[0].properties['5_5_t3_weekend'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['5_1_t0_weekday'] !== null ? autolinker.link(e.features[0].properties['5_1_t0_weekday'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['5_1_t0_weekend'] !== null ? autolinker.link(e.features[0].properties['5_1_t0_weekend'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['5_1_t1_weekday'] !== null ? autolinker.link(e.features[0].properties['5_1_t1_weekday'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['5_1_t1_weekend'] !== null ? autolinker.link(e.features[0].properties['5_1_t1_weekend'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['5_1_t2_weekday'] !== null ? autolinker.link(e.features[0].properties['5_1_t2_weekday'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['5_1_t2_weekend'] !== null ? autolinker.link(e.features[0].properties['5_1_t2_weekend'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['5_1_t3_weekday'] !== null ? autolinker.link(e.features[0].properties['5_1_t3_weekday'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['5_1_t3_weekend'] !== null ? autolinker.link(e.features[0].properties['5_1_t3_weekend'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['5_2_t0_weekday'] !== null ? autolinker.link(e.features[0].properties['5_2_t0_weekday'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['5_2_t0_weekend'] !== null ? autolinker.link(e.features[0].properties['5_2_t0_weekend'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['5_2_t1_weekday'] !== null ? autolinker.link(e.features[0].properties['5_2_t1_weekday'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['5_2_t1_weekend'] !== null ? autolinker.link(e.features[0].properties['5_2_t1_weekend'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['5_2_t2_weekday'] !== null ? autolinker.link(e.features[0].properties['5_2_t2_weekday'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['5_2_t2_weekend'] !== null ? autolinker.link(e.features[0].properties['5_2_t2_weekend'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['5_2_t3_weekday'] !== null ? autolinker.link(e.features[0].properties['5_2_t3_weekday'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['5_2_t3_weekend'] !== null ? autolinker.link(e.features[0].properties['5_2_t3_weekend'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['5_3_t0_weekday'] !== null ? autolinker.link(e.features[0].properties['5_3_t0_weekday'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['5_3_t0_weekend'] !== null ? autolinker.link(e.features[0].properties['5_3_t0_weekend'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['5_3_t1_weekday'] !== null ? autolinker.link(e.features[0].properties['5_3_t1_weekday'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['5_3_t1_weekend'] !== null ? autolinker.link(e.features[0].properties['5_3_t1_weekend'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['5_3_t2_weekday'] !== null ? autolinker.link(e.features[0].properties['5_3_t2_weekday'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['5_3_t2_weekend'] !== null ? autolinker.link(e.features[0].properties['5_3_t2_weekend'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['5_3_t3_weekday'] !== null ? autolinker.link(e.features[0].properties['5_3_t3_weekday'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['5_3_t3_weekend'] !== null ? autolinker.link(e.features[0].properties['5_3_t3_weekend'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['5_0_t0_weekday'] !== null ? autolinker.link(e.features[0].properties['5_0_t0_weekday'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['5_0_t0_weekend'] !== null ? autolinker.link(e.features[0].properties['5_0_t0_weekend'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['5_0_t1_weekday'] !== null ? autolinker.link(e.features[0].properties['5_0_t1_weekday'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['5_0_t1_weekend'] !== null ? autolinker.link(e.features[0].properties['5_0_t1_weekend'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['5_0_t2_weekday'] !== null ? autolinker.link(e.features[0].properties['5_0_t2_weekday'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['5_0_t2_weekend'] !== null ? autolinker.link(e.features[0].properties['5_0_t2_weekend'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['5_0_t3_weekday'] !== null ? autolinker.link(e.features[0].properties['5_0_t3_weekday'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['5_0_t3_weekend'] !== null ? autolinker.link(e.features[0].properties['5_0_t3_weekend'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['6_0_t0_weekday'] !== null ? autolinker.link(e.features[0].properties['6_0_t0_weekday'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['6_0_t0_weekend'] !== null ? autolinker.link(e.features[0].properties['6_0_t0_weekend'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['6_0_t1_weekday'] !== null ? autolinker.link(e.features[0].properties['6_0_t1_weekday'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['6_0_t1_weekend'] !== null ? autolinker.link(e.features[0].properties['6_0_t1_weekend'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['6_0_t2_weekday'] !== null ? autolinker.link(e.features[0].properties['6_0_t2_weekday'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['6_0_t2_weekend'] !== null ? autolinker.link(e.features[0].properties['6_0_t2_weekend'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['6_0_t3_weekday'] !== null ? autolinker.link(e.features[0].properties['6_0_t3_weekday'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['6_0_t3_weekend'] !== null ? autolinker.link(e.features[0].properties['6_0_t3_weekend'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['6_2_t0_weekday'] !== null ? autolinker.link(e.features[0].properties['6_2_t0_weekday'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['6_2_t0_weekend'] !== null ? autolinker.link(e.features[0].properties['6_2_t0_weekend'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['6_2_t1_weekday'] !== null ? autolinker.link(e.features[0].properties['6_2_t1_weekday'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['6_2_t1_weekend'] !== null ? autolinker.link(e.features[0].properties['6_2_t1_weekend'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['6_2_t2_weekday'] !== null ? autolinker.link(e.features[0].properties['6_2_t2_weekday'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['6_2_t2_weekend'] !== null ? autolinker.link(e.features[0].properties['6_2_t2_weekend'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['6_2_t3_weekday'] !== null ? autolinker.link(e.features[0].properties['6_2_t3_weekday'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['6_2_t3_weekend'] !== null ? autolinker.link(e.features[0].properties['6_2_t3_weekend'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['6_3_t0_weekday'] !== null ? autolinker.link(e.features[0].properties['6_3_t0_weekday'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['6_3_t0_weekend'] !== null ? autolinker.link(e.features[0].properties['6_3_t0_weekend'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['6_3_t1_weekday'] !== null ? autolinker.link(e.features[0].properties['6_3_t1_weekday'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['6_3_t1_weekend'] !== null ? autolinker.link(e.features[0].properties['6_3_t1_weekend'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['6_3_t2_weekday'] !== null ? autolinker.link(e.features[0].properties['6_3_t2_weekday'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['6_3_t2_weekend'] !== null ? autolinker.link(e.features[0].properties['6_3_t2_weekend'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['6_3_t3_weekday'] !== null ? autolinker.link(e.features[0].properties['6_3_t3_weekday'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['6_3_t3_weekend'] !== null ? autolinker.link(e.features[0].properties['6_3_t3_weekend'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['6_1_t0_weekday'] !== null ? autolinker.link(e.features[0].properties['6_1_t0_weekday'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['6_1_t0_weekend'] !== null ? autolinker.link(e.features[0].properties['6_1_t0_weekend'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['6_1_t1_weekday'] !== null ? autolinker.link(e.features[0].properties['6_1_t1_weekday'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['6_1_t1_weekend'] !== null ? autolinker.link(e.features[0].properties['6_1_t1_weekend'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['6_1_t2_weekday'] !== null ? autolinker.link(e.features[0].properties['6_1_t2_weekday'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['6_1_t2_weekend'] !== null ? autolinker.link(e.features[0].properties['6_1_t2_weekend'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['6_1_t3_weekday'] !== null ? autolinker.link(e.features[0].properties['6_1_t3_weekday'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['6_1_t3_weekend'] !== null ? autolinker.link(e.features[0].properties['6_1_t3_weekend'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['7_2_t0_weekday'] !== null ? autolinker.link(e.features[0].properties['7_2_t0_weekday'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['7_2_t0_weekend'] !== null ? autolinker.link(e.features[0].properties['7_2_t0_weekend'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['7_2_t1_weekday'] !== null ? autolinker.link(e.features[0].properties['7_2_t1_weekday'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['7_2_t1_weekend'] !== null ? autolinker.link(e.features[0].properties['7_2_t1_weekend'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['7_2_t2_weekday'] !== null ? autolinker.link(e.features[0].properties['7_2_t2_weekday'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['7_2_t2_weekend'] !== null ? autolinker.link(e.features[0].properties['7_2_t2_weekend'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['7_2_t3_weekday'] !== null ? autolinker.link(e.features[0].properties['7_2_t3_weekday'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['7_2_t3_weekend'] !== null ? autolinker.link(e.features[0].properties['7_2_t3_weekend'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['7_3_t0_weekday'] !== null ? autolinker.link(e.features[0].properties['7_3_t0_weekday'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['7_3_t0_weekend'] !== null ? autolinker.link(e.features[0].properties['7_3_t0_weekend'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['7_3_t1_weekday'] !== null ? autolinker.link(e.features[0].properties['7_3_t1_weekday'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['7_3_t1_weekend'] !== null ? autolinker.link(e.features[0].properties['7_3_t1_weekend'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['7_3_t2_weekday'] !== null ? autolinker.link(e.features[0].properties['7_3_t2_weekday'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['7_3_t2_weekend'] !== null ? autolinker.link(e.features[0].properties['7_3_t2_weekend'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['7_3_t3_weekday'] !== null ? autolinker.link(e.features[0].properties['7_3_t3_weekday'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['7_3_t3_weekend'] !== null ? autolinker.link(e.features[0].properties['7_3_t3_weekend'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['7_0_t0_weekday'] !== null ? autolinker.link(e.features[0].properties['7_0_t0_weekday'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['7_0_t0_weekend'] !== null ? autolinker.link(e.features[0].properties['7_0_t0_weekend'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['7_0_t1_weekday'] !== null ? autolinker.link(e.features[0].properties['7_0_t1_weekday'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['7_0_t1_weekend'] !== null ? autolinker.link(e.features[0].properties['7_0_t1_weekend'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['7_0_t2_weekday'] !== null ? autolinker.link(e.features[0].properties['7_0_t2_weekday'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['7_0_t2_weekend'] !== null ? autolinker.link(e.features[0].properties['7_0_t2_weekend'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['7_0_t3_weekday'] !== null ? autolinker.link(e.features[0].properties['7_0_t3_weekday'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['7_0_t3_weekend'] !== null ? autolinker.link(e.features[0].properties['7_0_t3_weekend'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['7_1_t0_weekday'] !== null ? autolinker.link(e.features[0].properties['7_1_t0_weekday'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['7_1_t0_weekend'] !== null ? autolinker.link(e.features[0].properties['7_1_t0_weekend'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['7_1_t1_weekday'] !== null ? autolinker.link(e.features[0].properties['7_1_t1_weekday'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['7_1_t1_weekend'] !== null ? autolinker.link(e.features[0].properties['7_1_t1_weekend'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['7_1_t2_weekday'] !== null ? autolinker.link(e.features[0].properties['7_1_t2_weekday'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['7_1_t2_weekend'] !== null ? autolinker.link(e.features[0].properties['7_1_t2_weekend'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['7_1_t3_weekday'] !== null ? autolinker.link(e.features[0].properties['7_1_t3_weekday'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['7_1_t3_weekend'] !== null ? autolinker.link(e.features[0].properties['7_1_t3_weekend'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['7_4_t0_weekday'] !== null ? autolinker.link(e.features[0].properties['7_4_t0_weekday'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['7_4_t0_weekend'] !== null ? autolinker.link(e.features[0].properties['7_4_t0_weekend'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['7_4_t1_weekday'] !== null ? autolinker.link(e.features[0].properties['7_4_t1_weekday'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['7_4_t1_weekend'] !== null ? autolinker.link(e.features[0].properties['7_4_t1_weekend'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['7_4_t2_weekday'] !== null ? autolinker.link(e.features[0].properties['7_4_t2_weekday'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['7_4_t2_weekend'] !== null ? autolinker.link(e.features[0].properties['7_4_t2_weekend'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['7_4_t3_weekday'] !== null ? autolinker.link(e.features[0].properties['7_4_t3_weekday'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['7_4_t3_weekend'] !== null ? autolinker.link(e.features[0].properties['7_4_t3_weekend'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['10_5_t0_weekday'] !== null ? autolinker.link(e.features[0].properties['10_5_t0_weekday'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['10_5_t0_weekend'] !== null ? autolinker.link(e.features[0].properties['10_5_t0_weekend'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['10_5_t1_weekday'] !== null ? autolinker.link(e.features[0].properties['10_5_t1_weekday'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['10_5_t1_weekend'] !== null ? autolinker.link(e.features[0].properties['10_5_t1_weekend'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['10_5_t2_weekday'] !== null ? autolinker.link(e.features[0].properties['10_5_t2_weekday'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['10_5_t2_weekend'] !== null ? autolinker.link(e.features[0].properties['10_5_t2_weekend'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['10_5_t3_weekday'] !== null ? autolinker.link(e.features[0].properties['10_5_t3_weekday'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['10_5_t3_weekend'] !== null ? autolinker.link(e.features[0].properties['10_5_t3_weekend'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['10_0_t0_weekday'] !== null ? autolinker.link(e.features[0].properties['10_0_t0_weekday'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['10_0_t0_weekend'] !== null ? autolinker.link(e.features[0].properties['10_0_t0_weekend'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['10_0_t1_weekday'] !== null ? autolinker.link(e.features[0].properties['10_0_t1_weekday'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['10_0_t1_weekend'] !== null ? autolinker.link(e.features[0].properties['10_0_t1_weekend'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['10_0_t2_weekday'] !== null ? autolinker.link(e.features[0].properties['10_0_t2_weekday'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['10_0_t2_weekend'] !== null ? autolinker.link(e.features[0].properties['10_0_t2_weekend'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['10_0_t3_weekday'] !== null ? autolinker.link(e.features[0].properties['10_0_t3_weekday'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['10_0_t3_weekend'] !== null ? autolinker.link(e.features[0].properties['10_0_t3_weekend'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['10_1_t0_weekday'] !== null ? autolinker.link(e.features[0].properties['10_1_t0_weekday'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['10_1_t0_weekend'] !== null ? autolinker.link(e.features[0].properties['10_1_t0_weekend'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['10_1_t1_weekday'] !== null ? autolinker.link(e.features[0].properties['10_1_t1_weekday'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['10_1_t1_weekend'] !== null ? autolinker.link(e.features[0].properties['10_1_t1_weekend'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['10_1_t2_weekday'] !== null ? autolinker.link(e.features[0].properties['10_1_t2_weekday'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['10_1_t2_weekend'] !== null ? autolinker.link(e.features[0].properties['10_1_t2_weekend'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['10_1_t3_weekday'] !== null ? autolinker.link(e.features[0].properties['10_1_t3_weekday'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['10_1_t3_weekend'] !== null ? autolinker.link(e.features[0].properties['10_1_t3_weekend'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['10_3_t0_weekday'] !== null ? autolinker.link(e.features[0].properties['10_3_t0_weekday'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['10_3_t0_weekend'] !== null ? autolinker.link(e.features[0].properties['10_3_t0_weekend'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['10_3_t1_weekday'] !== null ? autolinker.link(e.features[0].properties['10_3_t1_weekday'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['10_3_t1_weekend'] !== null ? autolinker.link(e.features[0].properties['10_3_t1_weekend'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['10_3_t2_weekday'] !== null ? autolinker.link(e.features[0].properties['10_3_t2_weekday'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['10_3_t2_weekend'] !== null ? autolinker.link(e.features[0].properties['10_3_t2_weekend'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['10_3_t3_weekday'] !== null ? autolinker.link(e.features[0].properties['10_3_t3_weekday'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['10_3_t3_weekend'] !== null ? autolinker.link(e.features[0].properties['10_3_t3_weekend'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['10_7_t0_weekday'] !== null ? autolinker.link(e.features[0].properties['10_7_t0_weekday'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['10_7_t0_weekend'] !== null ? autolinker.link(e.features[0].properties['10_7_t0_weekend'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['10_7_t1_weekday'] !== null ? autolinker.link(e.features[0].properties['10_7_t1_weekday'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['10_7_t1_weekend'] !== null ? autolinker.link(e.features[0].properties['10_7_t1_weekend'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['10_7_t2_weekday'] !== null ? autolinker.link(e.features[0].properties['10_7_t2_weekday'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['10_7_t2_weekend'] !== null ? autolinker.link(e.features[0].properties['10_7_t2_weekend'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['10_7_t3_weekday'] !== null ? autolinker.link(e.features[0].properties['10_7_t3_weekday'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['10_7_t3_weekend'] !== null ? autolinker.link(e.features[0].properties['10_7_t3_weekend'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['10_8_t0_weekday'] !== null ? autolinker.link(e.features[0].properties['10_8_t0_weekday'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['10_8_t0_weekend'] !== null ? autolinker.link(e.features[0].properties['10_8_t0_weekend'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['10_8_t1_weekday'] !== null ? autolinker.link(e.features[0].properties['10_8_t1_weekday'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['10_8_t1_weekend'] !== null ? autolinker.link(e.features[0].properties['10_8_t1_weekend'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['10_8_t2_weekday'] !== null ? autolinker.link(e.features[0].properties['10_8_t2_weekday'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['10_8_t2_weekend'] !== null ? autolinker.link(e.features[0].properties['10_8_t2_weekend'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['10_8_t3_weekday'] !== null ? autolinker.link(e.features[0].properties['10_8_t3_weekday'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['10_8_t3_weekend'] !== null ? autolinker.link(e.features[0].properties['10_8_t3_weekend'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['10_4_t0_weekday'] !== null ? autolinker.link(e.features[0].properties['10_4_t0_weekday'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['10_4_t0_weekend'] !== null ? autolinker.link(e.features[0].properties['10_4_t0_weekend'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['10_4_t1_weekday'] !== null ? autolinker.link(e.features[0].properties['10_4_t1_weekday'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['10_4_t1_weekend'] !== null ? autolinker.link(e.features[0].properties['10_4_t1_weekend'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['10_4_t2_weekday'] !== null ? autolinker.link(e.features[0].properties['10_4_t2_weekday'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['10_4_t2_weekend'] !== null ? autolinker.link(e.features[0].properties['10_4_t2_weekend'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['10_4_t3_weekday'] !== null ? autolinker.link(e.features[0].properties['10_4_t3_weekday'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['10_4_t3_weekend'] !== null ? autolinker.link(e.features[0].properties['10_4_t3_weekend'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['10_2_t0_weekday'] !== null ? autolinker.link(e.features[0].properties['10_2_t0_weekday'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['10_2_t0_weekend'] !== null ? autolinker.link(e.features[0].properties['10_2_t0_weekend'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['10_2_t1_weekday'] !== null ? autolinker.link(e.features[0].properties['10_2_t1_weekday'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['10_2_t1_weekend'] !== null ? autolinker.link(e.features[0].properties['10_2_t1_weekend'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['10_2_t2_weekday'] !== null ? autolinker.link(e.features[0].properties['10_2_t2_weekday'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['10_2_t2_weekend'] !== null ? autolinker.link(e.features[0].properties['10_2_t2_weekend'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['10_2_t3_weekday'] !== null ? autolinker.link(e.features[0].properties['10_2_t3_weekday'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['10_2_t3_weekend'] !== null ? autolinker.link(e.features[0].properties['10_2_t3_weekend'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['10_9_t0_weekday'] !== null ? autolinker.link(e.features[0].properties['10_9_t0_weekday'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['10_9_t0_weekend'] !== null ? autolinker.link(e.features[0].properties['10_9_t0_weekend'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['10_9_t1_weekday'] !== null ? autolinker.link(e.features[0].properties['10_9_t1_weekday'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['10_9_t1_weekend'] !== null ? autolinker.link(e.features[0].properties['10_9_t1_weekend'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['10_9_t2_weekday'] !== null ? autolinker.link(e.features[0].properties['10_9_t2_weekday'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['10_9_t2_weekend'] !== null ? autolinker.link(e.features[0].properties['10_9_t2_weekend'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['10_9_t3_weekday'] !== null ? autolinker.link(e.features[0].properties['10_9_t3_weekday'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['10_9_t3_weekend'] !== null ? autolinker.link(e.features[0].properties['10_9_t3_weekend'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['10_6_t0_weekday'] !== null ? autolinker.link(e.features[0].properties['10_6_t0_weekday'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['10_6_t0_weekend'] !== null ? autolinker.link(e.features[0].properties['10_6_t0_weekend'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['10_6_t1_weekday'] !== null ? autolinker.link(e.features[0].properties['10_6_t1_weekday'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['10_6_t1_weekend'] !== null ? autolinker.link(e.features[0].properties['10_6_t1_weekend'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['10_6_t2_weekday'] !== null ? autolinker.link(e.features[0].properties['10_6_t2_weekday'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['10_6_t2_weekend'] !== null ? autolinker.link(e.features[0].properties['10_6_t2_weekend'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['10_6_t3_weekday'] !== null ? autolinker.link(e.features[0].properties['10_6_t3_weekday'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['10_6_t3_weekend'] !== null ? autolinker.link(e.features[0].properties['10_6_t3_weekend'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['12_2_t0_weekday'] !== null ? autolinker.link(e.features[0].properties['12_2_t0_weekday'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['12_2_t0_weekend'] !== null ? autolinker.link(e.features[0].properties['12_2_t0_weekend'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['12_2_t1_weekday'] !== null ? autolinker.link(e.features[0].properties['12_2_t1_weekday'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['12_2_t1_weekend'] !== null ? autolinker.link(e.features[0].properties['12_2_t1_weekend'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['12_2_t2_weekday'] !== null ? autolinker.link(e.features[0].properties['12_2_t2_weekday'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['12_2_t2_weekend'] !== null ? autolinker.link(e.features[0].properties['12_2_t2_weekend'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['12_2_t3_weekday'] !== null ? autolinker.link(e.features[0].properties['12_2_t3_weekday'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['12_2_t3_weekend'] !== null ? autolinker.link(e.features[0].properties['12_2_t3_weekend'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['12_0_t0_weekday'] !== null ? autolinker.link(e.features[0].properties['12_0_t0_weekday'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['12_0_t0_weekend'] !== null ? autolinker.link(e.features[0].properties['12_0_t0_weekend'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['12_0_t1_weekday'] !== null ? autolinker.link(e.features[0].properties['12_0_t1_weekday'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['12_0_t1_weekend'] !== null ? autolinker.link(e.features[0].properties['12_0_t1_weekend'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['12_0_t2_weekday'] !== null ? autolinker.link(e.features[0].properties['12_0_t2_weekday'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['12_0_t2_weekend'] !== null ? autolinker.link(e.features[0].properties['12_0_t2_weekend'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['12_0_t3_weekday'] !== null ? autolinker.link(e.features[0].properties['12_0_t3_weekday'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['12_0_t3_weekend'] !== null ? autolinker.link(e.features[0].properties['12_0_t3_weekend'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['13_2_t0_weekday'] !== null ? autolinker.link(e.features[0].properties['13_2_t0_weekday'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['13_2_t0_weekend'] !== null ? autolinker.link(e.features[0].properties['13_2_t0_weekend'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['13_2_t1_weekday'] !== null ? autolinker.link(e.features[0].properties['13_2_t1_weekday'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['13_2_t1_weekend'] !== null ? autolinker.link(e.features[0].properties['13_2_t1_weekend'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['13_2_t2_weekday'] !== null ? autolinker.link(e.features[0].properties['13_2_t2_weekday'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['13_2_t2_weekend'] !== null ? autolinker.link(e.features[0].properties['13_2_t2_weekend'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['13_2_t3_weekday'] !== null ? autolinker.link(e.features[0].properties['13_2_t3_weekday'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['13_2_t3_weekend'] !== null ? autolinker.link(e.features[0].properties['13_2_t3_weekend'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['13_4_t0_weekday'] !== null ? autolinker.link(e.features[0].properties['13_4_t0_weekday'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['13_4_t0_weekend'] !== null ? autolinker.link(e.features[0].properties['13_4_t0_weekend'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['13_4_t1_weekday'] !== null ? autolinker.link(e.features[0].properties['13_4_t1_weekday'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['13_4_t1_weekend'] !== null ? autolinker.link(e.features[0].properties['13_4_t1_weekend'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['13_4_t2_weekday'] !== null ? autolinker.link(e.features[0].properties['13_4_t2_weekday'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['13_4_t2_weekend'] !== null ? autolinker.link(e.features[0].properties['13_4_t2_weekend'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['13_4_t3_weekday'] !== null ? autolinker.link(e.features[0].properties['13_4_t3_weekday'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['13_4_t3_weekend'] !== null ? autolinker.link(e.features[0].properties['13_4_t3_weekend'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['13_1_t0_weekday'] !== null ? autolinker.link(e.features[0].properties['13_1_t0_weekday'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['13_1_t0_weekend'] !== null ? autolinker.link(e.features[0].properties['13_1_t0_weekend'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['13_1_t1_weekday'] !== null ? autolinker.link(e.features[0].properties['13_1_t1_weekday'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['13_1_t1_weekend'] !== null ? autolinker.link(e.features[0].properties['13_1_t1_weekend'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['13_1_t2_weekday'] !== null ? autolinker.link(e.features[0].properties['13_1_t2_weekday'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['13_1_t2_weekend'] !== null ? autolinker.link(e.features[0].properties['13_1_t2_weekend'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['13_1_t3_weekday'] !== null ? autolinker.link(e.features[0].properties['13_1_t3_weekday'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['13_1_t3_weekend'] !== null ? autolinker.link(e.features[0].properties['13_1_t3_weekend'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['14_0_t0_weekday'] !== null ? autolinker.link(e.features[0].properties['14_0_t0_weekday'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['14_0_t0_weekend'] !== null ? autolinker.link(e.features[0].properties['14_0_t0_weekend'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['14_0_t1_weekday'] !== null ? autolinker.link(e.features[0].properties['14_0_t1_weekday'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['14_0_t1_weekend'] !== null ? autolinker.link(e.features[0].properties['14_0_t1_weekend'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['14_0_t2_weekday'] !== null ? autolinker.link(e.features[0].properties['14_0_t2_weekday'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['14_0_t2_weekend'] !== null ? autolinker.link(e.features[0].properties['14_0_t2_weekend'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['14_0_t3_weekday'] !== null ? autolinker.link(e.features[0].properties['14_0_t3_weekday'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['14_0_t3_weekend'] !== null ? autolinker.link(e.features[0].properties['14_0_t3_weekend'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['14_1_t0_weekday'] !== null ? autolinker.link(e.features[0].properties['14_1_t0_weekday'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['14_1_t0_weekend'] !== null ? autolinker.link(e.features[0].properties['14_1_t0_weekend'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['14_1_t1_weekday'] !== null ? autolinker.link(e.features[0].properties['14_1_t1_weekday'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['14_1_t1_weekend'] !== null ? autolinker.link(e.features[0].properties['14_1_t1_weekend'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['14_1_t2_weekday'] !== null ? autolinker.link(e.features[0].properties['14_1_t2_weekday'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['14_1_t2_weekend'] !== null ? autolinker.link(e.features[0].properties['14_1_t2_weekend'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['14_1_t3_weekday'] !== null ? autolinker.link(e.features[0].properties['14_1_t3_weekday'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['14_1_t3_weekend'] !== null ? autolinker.link(e.features[0].properties['14_1_t3_weekend'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['14_2_t0_weekday'] !== null ? autolinker.link(e.features[0].properties['14_2_t0_weekday'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['14_2_t0_weekend'] !== null ? autolinker.link(e.features[0].properties['14_2_t0_weekend'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['14_2_t1_weekday'] !== null ? autolinker.link(e.features[0].properties['14_2_t1_weekday'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['14_2_t1_weekend'] !== null ? autolinker.link(e.features[0].properties['14_2_t1_weekend'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['14_2_t2_weekday'] !== null ? autolinker.link(e.features[0].properties['14_2_t2_weekday'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['14_2_t2_weekend'] !== null ? autolinker.link(e.features[0].properties['14_2_t2_weekend'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['14_2_t3_weekday'] !== null ? autolinker.link(e.features[0].properties['14_2_t3_weekday'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['14_2_t3_weekend'] !== null ? autolinker.link(e.features[0].properties['14_2_t3_weekend'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['14_3_t0_weekday'] !== null ? autolinker.link(e.features[0].properties['14_3_t0_weekday'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['14_3_t0_weekend'] !== null ? autolinker.link(e.features[0].properties['14_3_t0_weekend'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['14_3_t1_weekday'] !== null ? autolinker.link(e.features[0].properties['14_3_t1_weekday'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['14_3_t1_weekend'] !== null ? autolinker.link(e.features[0].properties['14_3_t1_weekend'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['14_3_t2_weekday'] !== null ? autolinker.link(e.features[0].properties['14_3_t2_weekday'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['14_3_t2_weekend'] !== null ? autolinker.link(e.features[0].properties['14_3_t2_weekend'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['14_3_t3_weekday'] !== null ? autolinker.link(e.features[0].properties['14_3_t3_weekday'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['14_3_t3_weekend'] !== null ? autolinker.link(e.features[0].properties['14_3_t3_weekend'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['city_y'] !== null ? autolinker.link(e.features[0].properties['city_y'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['8_2_t0_weekday'] !== null ? autolinker.link(e.features[0].properties['8_2_t0_weekday'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['8_2_t0_weekend'] !== null ? autolinker.link(e.features[0].properties['8_2_t0_weekend'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['8_2_t1_weekday'] !== null ? autolinker.link(e.features[0].properties['8_2_t1_weekday'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['8_2_t1_weekend'] !== null ? autolinker.link(e.features[0].properties['8_2_t1_weekend'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['8_2_t2_weekday'] !== null ? autolinker.link(e.features[0].properties['8_2_t2_weekday'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['8_2_t2_weekend'] !== null ? autolinker.link(e.features[0].properties['8_2_t2_weekend'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['8_2_t3_weekday'] !== null ? autolinker.link(e.features[0].properties['8_2_t3_weekday'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['8_2_t3_weekend'] !== null ? autolinker.link(e.features[0].properties['8_2_t3_weekend'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['8_1_t0_weekday'] !== null ? autolinker.link(e.features[0].properties['8_1_t0_weekday'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['8_1_t0_weekend'] !== null ? autolinker.link(e.features[0].properties['8_1_t0_weekend'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['8_1_t1_weekday'] !== null ? autolinker.link(e.features[0].properties['8_1_t1_weekday'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['8_1_t1_weekend'] !== null ? autolinker.link(e.features[0].properties['8_1_t1_weekend'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['8_1_t2_weekday'] !== null ? autolinker.link(e.features[0].properties['8_1_t2_weekday'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['8_1_t2_weekend'] !== null ? autolinker.link(e.features[0].properties['8_1_t2_weekend'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['8_1_t3_weekday'] !== null ? autolinker.link(e.features[0].properties['8_1_t3_weekday'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['8_1_t3_weekend'] !== null ? autolinker.link(e.features[0].properties['8_1_t3_weekend'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['11_1_t0_weekday'] !== null ? autolinker.link(e.features[0].properties['11_1_t0_weekday'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['11_1_t0_weekend'] !== null ? autolinker.link(e.features[0].properties['11_1_t0_weekend'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['11_1_t1_weekday'] !== null ? autolinker.link(e.features[0].properties['11_1_t1_weekday'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['11_1_t1_weekend'] !== null ? autolinker.link(e.features[0].properties['11_1_t1_weekend'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['11_1_t2_weekday'] !== null ? autolinker.link(e.features[0].properties['11_1_t2_weekday'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['11_1_t2_weekend'] !== null ? autolinker.link(e.features[0].properties['11_1_t2_weekend'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['11_1_t3_weekday'] !== null ? autolinker.link(e.features[0].properties['11_1_t3_weekday'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['11_1_t3_weekend'] !== null ? autolinker.link(e.features[0].properties['11_1_t3_weekend'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['12_1_t0_weekday'] !== null ? autolinker.link(e.features[0].properties['12_1_t0_weekday'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['12_1_t0_weekend'] !== null ? autolinker.link(e.features[0].properties['12_1_t0_weekend'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['12_1_t1_weekday'] !== null ? autolinker.link(e.features[0].properties['12_1_t1_weekday'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['12_1_t1_weekend'] !== null ? autolinker.link(e.features[0].properties['12_1_t1_weekend'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['12_1_t2_weekday'] !== null ? autolinker.link(e.features[0].properties['12_1_t2_weekday'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['12_1_t2_weekend'] !== null ? autolinker.link(e.features[0].properties['12_1_t2_weekend'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['12_1_t3_weekday'] !== null ? autolinker.link(e.features[0].properties['12_1_t3_weekday'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['12_1_t3_weekend'] !== null ? autolinker.link(e.features[0].properties['12_1_t3_weekend'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['13_0_t0_weekday'] !== null ? autolinker.link(e.features[0].properties['13_0_t0_weekday'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['13_0_t0_weekend'] !== null ? autolinker.link(e.features[0].properties['13_0_t0_weekend'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['13_0_t1_weekday'] !== null ? autolinker.link(e.features[0].properties['13_0_t1_weekday'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['13_0_t1_weekend'] !== null ? autolinker.link(e.features[0].properties['13_0_t1_weekend'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['13_0_t2_weekday'] !== null ? autolinker.link(e.features[0].properties['13_0_t2_weekday'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['13_0_t2_weekend'] !== null ? autolinker.link(e.features[0].properties['13_0_t2_weekend'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['13_0_t3_weekday'] !== null ? autolinker.link(e.features[0].properties['13_0_t3_weekday'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['13_0_t3_weekend'] !== null ? autolinker.link(e.features[0].properties['13_0_t3_weekend'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['13_5_t0_weekday'] !== null ? autolinker.link(e.features[0].properties['13_5_t0_weekday'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['13_5_t0_weekend'] !== null ? autolinker.link(e.features[0].properties['13_5_t0_weekend'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['13_5_t1_weekday'] !== null ? autolinker.link(e.features[0].properties['13_5_t1_weekday'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['13_5_t1_weekend'] !== null ? autolinker.link(e.features[0].properties['13_5_t1_weekend'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['13_5_t2_weekday'] !== null ? autolinker.link(e.features[0].properties['13_5_t2_weekday'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['13_5_t2_weekend'] !== null ? autolinker.link(e.features[0].properties['13_5_t2_weekend'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['13_5_t3_weekday'] !== null ? autolinker.link(e.features[0].properties['13_5_t3_weekday'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['13_5_t3_weekend'] !== null ? autolinker.link(e.features[0].properties['13_5_t3_weekend'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['8_0_t0_weekday'] !== null ? autolinker.link(e.features[0].properties['8_0_t0_weekday'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['8_0_t0_weekend'] !== null ? autolinker.link(e.features[0].properties['8_0_t0_weekend'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['8_0_t1_weekday'] !== null ? autolinker.link(e.features[0].properties['8_0_t1_weekday'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['8_0_t1_weekend'] !== null ? autolinker.link(e.features[0].properties['8_0_t1_weekend'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['8_0_t2_weekday'] !== null ? autolinker.link(e.features[0].properties['8_0_t2_weekday'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['8_0_t2_weekend'] !== null ? autolinker.link(e.features[0].properties['8_0_t2_weekend'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['8_0_t3_weekday'] !== null ? autolinker.link(e.features[0].properties['8_0_t3_weekday'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['8_0_t3_weekend'] !== null ? autolinker.link(e.features[0].properties['8_0_t3_weekend'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['9_0_t0_weekday'] !== null ? autolinker.link(e.features[0].properties['9_0_t0_weekday'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['9_0_t0_weekend'] !== null ? autolinker.link(e.features[0].properties['9_0_t0_weekend'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['9_0_t1_weekday'] !== null ? autolinker.link(e.features[0].properties['9_0_t1_weekday'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['9_0_t1_weekend'] !== null ? autolinker.link(e.features[0].properties['9_0_t1_weekend'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['9_0_t2_weekday'] !== null ? autolinker.link(e.features[0].properties['9_0_t2_weekday'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['9_0_t2_weekend'] !== null ? autolinker.link(e.features[0].properties['9_0_t2_weekend'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['9_0_t3_weekday'] !== null ? autolinker.link(e.features[0].properties['9_0_t3_weekday'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['9_0_t3_weekend'] !== null ? autolinker.link(e.features[0].properties['9_0_t3_weekend'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['11_0_t0_weekday'] !== null ? autolinker.link(e.features[0].properties['11_0_t0_weekday'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['11_0_t0_weekend'] !== null ? autolinker.link(e.features[0].properties['11_0_t0_weekend'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['11_0_t1_weekday'] !== null ? autolinker.link(e.features[0].properties['11_0_t1_weekday'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['11_0_t1_weekend'] !== null ? autolinker.link(e.features[0].properties['11_0_t1_weekend'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['11_0_t2_weekday'] !== null ? autolinker.link(e.features[0].properties['11_0_t2_weekday'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['11_0_t2_weekend'] !== null ? autolinker.link(e.features[0].properties['11_0_t2_weekend'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['11_0_t3_weekday'] !== null ? autolinker.link(e.features[0].properties['11_0_t3_weekday'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['11_0_t3_weekend'] !== null ? autolinker.link(e.features[0].properties['11_0_t3_weekend'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['13_3_t0_weekday'] !== null ? autolinker.link(e.features[0].properties['13_3_t0_weekday'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['13_3_t0_weekend'] !== null ? autolinker.link(e.features[0].properties['13_3_t0_weekend'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['13_3_t1_weekday'] !== null ? autolinker.link(e.features[0].properties['13_3_t1_weekday'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['13_3_t1_weekend'] !== null ? autolinker.link(e.features[0].properties['13_3_t1_weekend'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['13_3_t2_weekday'] !== null ? autolinker.link(e.features[0].properties['13_3_t2_weekday'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['13_3_t2_weekend'] !== null ? autolinker.link(e.features[0].properties['13_3_t2_weekend'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['13_3_t3_weekday'] !== null ? autolinker.link(e.features[0].properties['13_3_t3_weekday'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['13_3_t3_weekend'] !== null ? autolinker.link(e.features[0].properties['13_3_t3_weekend'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                </table>'
+
+    new mapboxgl.Popup()
+        .setLngLat(e.lngLat)
+        .setHTML(description)
+        .addTo(map);
+});
+
+// Change the cursor to a pointer when the mouse is over the places layer.
+map.on('mouseenter', 'lyr_PittsburghNeighCluster_1_0', function () {
+    map.getCanvas().style.cursor = 'pointer';
+});
+
+// Change it back to a pointer when it leaves.
+map.on('mouseleave', 'lyr_PittsburghNeighCluster_1_0', function () {
+    map.getCanvas().style.cursor = '';
+});
+map.on('click', 'lyr_Joinedlayer_2_0', function (e) {
+    var description = '<table>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['objectid'] !== null ? autolinker.link(e.features[0].properties['objectid'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['hood_no'] !== null ? autolinker.link(e.features[0].properties['hood_no'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['page_numbe'] !== null ? autolinker.link(e.features[0].properties['page_numbe'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['neighborhoods'] !== null ? autolinker.link(e.features[0].properties['neighborhoods'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['planning_sectors'] !== null ? autolinker.link(e.features[0].properties['planning_sectors'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['hood_1'] !== null ? autolinker.link(e.features[0].properties['hood_1'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['acres_1'] !== null ? autolinker.link(e.features[0].properties['acres_1'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['sqmiles_1'] !== null ? autolinker.link(e.features[0].properties['sqmiles_1'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['st_area_shape1_1'] !== null ? autolinker.link(e.features[0].properties['st_area_shape1_1'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['st_length_shape1_1'] !== null ? autolinker.link(e.features[0].properties['st_length_shape1_1'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['created_user'] !== null ? autolinker.link(e.features[0].properties['created_user'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['created_date'] !== null ? autolinker.link(e.features[0].properties['created_date'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['last_edited_user'] !== null ? autolinker.link(e.features[0].properties['last_edited_user'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['last_edited_date'] !== null ? autolinker.link(e.features[0].properties['last_edited_date'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['cluster'] !== null ? autolinker.link(e.features[0].properties['cluster'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                </table>'
+
+    new mapboxgl.Popup()
+        .setLngLat(e.lngLat)
+        .setHTML(description)
+        .addTo(map);
+});
+
+// Change the cursor to a pointer when the mouse is over the places layer.
+map.on('mouseenter', 'lyr_Joinedlayer_2_0', function () {
+    map.getCanvas().style.cursor = 'pointer';
+});
+
+// Change it back to a pointer when it leaves.
+map.on('mouseleave', 'lyr_Joinedlayer_2_0', function () {
+    map.getCanvas().style.cursor = '';
+});
+    var toggleableLayerIds = ['lyr_Joinedlayer_2_0', 'Joined layer','lyr_PittsburghNeighCluster_1_0', 'PittsburghNeighCluster','lyr_pittsburgh_0_0', 'pittsburgh'];
+
+    for (var i = 0; i < toggleableLayerIds.length; i=i+2) {
+        var id = toggleableLayerIds[i];
+        var layerName = toggleableLayerIds[i+1]
+
+        var link = document.createElement('a');
+        link.href = '#';
+        link.className = 'active';
+        link.layer = id;
+        link.textContent = layerName;
+
+        link.onclick = function (e) {
+            var clickedLayer = this.layer;
+            e.preventDefault();
+            e.stopPropagation();
+
+            var visibility = map.getLayoutProperty(clickedLayer, 'visibility');
+
+            if (typeof visibility === 'undefined' || visibility == 'visible') {
+                map.setLayoutProperty(clickedLayer, 'visibility', 'none');
+                this.className = '';
+            } else {
+                this.className = 'active';
+                map.setLayoutProperty(clickedLayer, 'visibility', 'visible');
+            }
+        };
+
+        var layers = document.getElementById('menu');
+        layers.appendChild(link);
+    }</script>
+        <script src="./mapbox/measureMetric.js"></script>
+        <script src="./mapbox/turf.min.js"></script>
+    </body>
+</html>

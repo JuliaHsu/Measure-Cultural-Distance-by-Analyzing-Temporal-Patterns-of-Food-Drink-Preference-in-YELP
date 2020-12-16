@@ -1,0 +1,275 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="initial-scale=1,user-scalable=no,maximum-scale=1,width=device-width">
+        <meta name="mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <link rel="stylesheet" href="css/leaflet.css">
+        <link rel="stylesheet" href="css/qgis2web.css"><link rel="stylesheet" href="css/fontawesome-all.min.css">
+        <style>
+        #map {
+            width: 1354px;
+            height: 834px;
+        }
+        </style>
+        <title></title>
+    </head>
+    <body>
+        <div id="map">
+        </div>
+        <script src="js/qgis2web_expressions.js"></script>
+        <script src="js/leaflet.js"></script>
+        <script src="js/leaflet.rotatedMarker.js"></script>
+        <script src="js/leaflet.pattern.js"></script>
+        <script src="js/leaflet-hash.js"></script>
+        <script src="js/Autolinker.min.js"></script>
+        <script src="js/rbush.min.js"></script>
+        <script src="js/labelgun.min.js"></script>
+        <script src="js/labels.js"></script>
+        <script src="data/PittsburghRace7_sc_0.js"></script>
+        <script>
+        var map = L.map('map', {
+            zoomControl:true, maxZoom:28, minZoom:1
+        }).fitBounds([[40.3570945,-80.10125275],[40.5055225,-79.86005725]]);
+        var hash = new L.Hash(map);
+        map.attributionControl.setPrefix('<a href="https://github.com/tomchadwin/qgis2web" target="_blank">qgis2web</a> &middot; <a href="https://leafletjs.com" title="A JS library for interactive maps">Leaflet</a> &middot; <a href="https://qgis.org">QGIS</a>');
+        var autolinker = new Autolinker({truncate: {length: 30, location: 'smart'}});
+        var bounds_group = new L.featureGroup([]);
+        function setBounds() {
+        }
+        function pop_PittsburghRace7_sc_0(feature, layer) {
+            var popupContent = '<table>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['field_1'] !== null ? autolinker.link(feature.properties['field_1'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['objectid'] !== null ? autolinker.link(feature.properties['objectid'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['hood_no'] !== null ? autolinker.link(feature.properties['hood_no'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['page_numbe'] !== null ? autolinker.link(feature.properties['page_numbe'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['neighborhoods'] !== null ? autolinker.link(feature.properties['neighborhoods'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['planning_sectors'] !== null ? autolinker.link(feature.properties['planning_sectors'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['hood_1'] !== null ? autolinker.link(feature.properties['hood_1'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['acres_1'] !== null ? autolinker.link(feature.properties['acres_1'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['sqmiles_1'] !== null ? autolinker.link(feature.properties['sqmiles_1'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['st_area_shape1_1'] !== null ? autolinker.link(feature.properties['st_area_shape1_1'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['st_length_shape1_1'] !== null ? autolinker.link(feature.properties['st_length_shape1_1'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['created_user'] !== null ? autolinker.link(feature.properties['created_user'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['created_date'] !== null ? autolinker.link(feature.properties['created_date'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['last_edited_user'] !== null ? autolinker.link(feature.properties['last_edited_user'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['last_edited_date'] !== null ? autolinker.link(feature.properties['last_edited_date'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Unnamed: 0'] !== null ? autolinker.link(feature.properties['Unnamed: 0'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['neighborhood_name'] !== null ? autolinker.link(feature.properties['neighborhood_name'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['cluster'] !== null ? autolinker.link(feature.properties['cluster'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Estimate; Total:'] !== null ? autolinker.link(feature.properties['Estimate; Total:'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Estimate; Total: - White alone'] !== null ? autolinker.link(feature.properties['Estimate; Total: - White alone'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Estimate; Total: - Black or African American alone'] !== null ? autolinker.link(feature.properties['Estimate; Total: - Black or African American alone'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Estimate; Total: - American Indian and Alaska Native alone'] !== null ? autolinker.link(feature.properties['Estimate; Total: - American Indian and Alaska Native alone'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Estimate; Total: - Asian alone'] !== null ? autolinker.link(feature.properties['Estimate; Total: - Asian alone'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Estimate; Total: - Native Hawaiian and Other Pacific Islander alone'] !== null ? autolinker.link(feature.properties['Estimate; Total: - Native Hawaiian and Other Pacific Islander alone'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Estimate; Total: - Some other race alone'] !== null ? autolinker.link(feature.properties['Estimate; Total: - Some other race alone'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Estimate; Total: - Two or more races:'] !== null ? autolinker.link(feature.properties['Estimate; Total: - Two or more races:'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Estimate; Total: - Two or more races: - Two races including Some other race'] !== null ? autolinker.link(feature.properties['Estimate; Total: - Two or more races: - Two races including Some other race'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Estimate; Total: - Two or more races: - Two races excluding Some other race, and three or more races'] !== null ? autolinker.link(feature.properties['Estimate; Total: - Two or more races: - Two races excluding Some other race, and three or more races'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent, {maxHeight: 400});
+        }
+
+        function style_PittsburghRace7_sc_0_0(feature) {
+            switch(String(feature.properties['cluster'])) {
+                case '0':
+                    return {
+                pane: 'pane_PittsburghRace7_sc_0',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(68,1,84,1.0)',
+                interactive: true,
+            }
+                    break;
+                case '1':
+                    return {
+                pane: 'pane_PittsburghRace7_sc_0',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(69,50,127,1.0)',
+                interactive: true,
+            }
+                    break;
+                case '2':
+                    return {
+                pane: 'pane_PittsburghRace7_sc_0',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(54,92,141,1.0)',
+                interactive: true,
+            }
+                    break;
+                case '3':
+                    return {
+                pane: 'pane_PittsburghRace7_sc_0',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(39,127,142,1.0)',
+                interactive: true,
+            }
+                    break;
+                case '4':
+                    return {
+                pane: 'pane_PittsburghRace7_sc_0',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(31,162,136,1.0)',
+                interactive: true,
+            }
+                    break;
+                case '5':
+                    return {
+                pane: 'pane_PittsburghRace7_sc_0',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(74,194,109,1.0)',
+                interactive: true,
+            }
+                    break;
+                case '6':
+                    return {
+                pane: 'pane_PittsburghRace7_sc_0',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(158,218,57,1.0)',
+                interactive: true,
+            }
+                    break;
+                default:
+                    return {
+                pane: 'pane_PittsburghRace7_sc_0',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(255,255,255,1.0)',
+                interactive: true,
+            }
+                    break;
+            }
+        }
+        map.createPane('pane_PittsburghRace7_sc_0');
+        map.getPane('pane_PittsburghRace7_sc_0').style.zIndex = 400;
+        map.getPane('pane_PittsburghRace7_sc_0').style['mix-blend-mode'] = 'normal';
+        var layer_PittsburghRace7_sc_0 = new L.geoJson(json_PittsburghRace7_sc_0, {
+            attribution: '',
+            interactive: true,
+            dataVar: 'json_PittsburghRace7_sc_0',
+            layerName: 'layer_PittsburghRace7_sc_0',
+            pane: 'pane_PittsburghRace7_sc_0',
+            onEachFeature: pop_PittsburghRace7_sc_0,
+            style: style_PittsburghRace7_sc_0_0,
+        });
+        bounds_group.addLayer(layer_PittsburghRace7_sc_0);
+        map.addLayer(layer_PittsburghRace7_sc_0);
+        var baseMaps = {};
+        L.control.layers(baseMaps,{'PittsburghRace7_sc<br /><table><tr><td style="text-align: center;"><img src="legend/PittsburghRace7_sc_0_00.png" /></td><td>0</td></tr><tr><td style="text-align: center;"><img src="legend/PittsburghRace7_sc_0_11.png" /></td><td>1</td></tr><tr><td style="text-align: center;"><img src="legend/PittsburghRace7_sc_0_22.png" /></td><td>2</td></tr><tr><td style="text-align: center;"><img src="legend/PittsburghRace7_sc_0_33.png" /></td><td>3</td></tr><tr><td style="text-align: center;"><img src="legend/PittsburghRace7_sc_0_44.png" /></td><td>4</td></tr><tr><td style="text-align: center;"><img src="legend/PittsburghRace7_sc_0_55.png" /></td><td>5</td></tr><tr><td style="text-align: center;"><img src="legend/PittsburghRace7_sc_0_66.png" /></td><td>6</td></tr><tr><td style="text-align: center;"><img src="legend/PittsburghRace7_sc_0_7.png" /></td><td></td></tr></table>': layer_PittsburghRace7_sc_0,},{collapsed:false}).addTo(map);
+        setBounds();
+        </script>
+    </body>
+</html>
