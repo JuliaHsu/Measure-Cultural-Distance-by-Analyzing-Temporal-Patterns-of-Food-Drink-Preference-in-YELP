@@ -1,14 +1,12 @@
-### MEASURE CULTURAL DISTANCE BY ANALYZING TEMPORAL PATTERNS OF FOOD AND DRINK PREFERENCE IN YELP
+### MEASURE CULTURAL SIMILARITY BY ANALYZING TEMPORAL PATTERNS OF FOOD AND DRINK PREFERENCE IN YELP
 <p>
-The proposed project examines the food and drink culture in 6 different cities from
-Northern America and draws neighborhood map which clearly demarcates the boundary based on the temporal patterns of food and drink preferences. Each region in the map would subtly convey to us the cultural preferences which has resulted in this classification
+We analyze food and drink cultures in 6 different cities from Northern America andidentify cultural boundaries across population at different scales based on the temporalpatterns of food and drink preferences. Each region in the map would subtly convey to us thecultural preferences which has resulted in this classification.
 </p>
 
 #### Dataset and immediate data
 
 * [Yelp academic dataset](https://www.yelp.com/dataset) 
-#### Processed Data on OneDrive
-* Converted csv files: ``./yelp_dataset/raw/``
+*  Converted csv files: ``./yelp_dataset/raw/``
 * Join tables: ``./yelp_dataset/join_table/``
     * ```restaurant_checkin.csv```
     * ``` restaurant_review.csv```
@@ -20,32 +18,29 @@ Northern America and draws neighborhood map which clearly demarcates the boundar
         * text: processed reviews 
         * processed_text: business tags + processed reviews
     * ```rest_biz_tags.csv``` : business_id + business tags list
-    * ```rest_word_freq.csv```: immediate result of bag of word models of restaurant (frequency of term)
-    * ```rest_tf_idf.csv```: weighted temrs (tags and reviews) using tf-idf
+    * ```sub_rest_word_freq.csv```: immediate result of bag of word models of restaurant (frequency of term)
+    * ```sub_rest_tf_idf.csv```: weighted temrs (tags and reviews) using tf-idf
 
 * Features: ```./yelp_dataset/features/```
     * ```featured_biz_tags.txt```: filtered business tags after removing some business outliers (spa, nail spa...)
-    * ```features.txt```: manully selected features that are related to food, drink or ambience
     * ```business_tags.csv```: original list of business tags (extracted from businesses that are tagged with food, restaurant)
-    * ```most_freq_word.csv```: top 1000 frequent words appear in reviews and business tags (uesd for selecting relevant features)
-    * ```word_freq.csv```: immediate result of word frequency of each restaurant from its reviews and tags
+    * ```1000_freq_word_review.csv```: top 1000 frequent words appear in reviews and business tags (uesd for selecting relevant features)
+    * ```features_review.txt```: selected features related to food, drink, ambience and price from reviews
+    * ```word_freq_review.csv```: immediate result of relevant word frequency of each restaurant from its reviews
 
 
 #### Follow below instructions to reproduce the project
 
 1. Convert json to csv and join tables
-    **`./src/json_to_csv.py`**
-    * convert business, reviews, and chekin json files to csv files
-    * filter out businesses that are not restaurant
-
-    **`./src/join_tables.py`**
-    * join restaurant and checkin tables
-    * join restaurant and review tables
+    * [json_to_csv.py](https://github.com/JuliaHsu/Measure-Cultural-Distance-by-Analyzing-Temporal-Patterns-of-Food-Drink-Preference-in-YELP/blob/master/src/json_to_csv.py)
+        * convert business, reviews, and chekin json files to csv files
+        * filter out businesses that are not restaurant
+    * [join_tables.py](https://github.com/JuliaHsu/Measure-Cultural-Distance-by-Analyzing-Temporal-Patterns-of-Food-Drink-Preference-in-YELP/blob/master/src/join_tables.py)
+        * join restaurant and checkin tables
+        * join restaurant and review tables
 
 2. Detect business outliers and categorize restaurants based on business tags
-
-    **`./src/root_clustering.py`**
-
+    * [rest_root_cat.py](https://github.com/JuliaHsu/Measure-Cultural-Distance-by-Analyzing-Temporal-Patterns-of-Food-Drink-Preference-in-YELP/blob/master/src/rest_root_cat.py)
     ```
     # functions for detecting business outliers, where K = 32
     unique_tags, rest_tags = get_rest_tags()
@@ -62,26 +57,27 @@ Northern America and draws neighborhood map which clearly demarcates the boundar
     k_means_rest_root(filtered_rest_vec, NUM_CLUSTERS = 15)
     ```
 3. Relevant features extraction
-
-    **`./src/feature_extraction.py`**
-
+    * [feature_extraction.py](https://github.com/JuliaHsu/Measure-Cultural-Distance-by-Analyzing-Temporal-Patterns-of-Food-Drink-Preference-in-YELP/blob/master/src/feature_extraction.py)
     ```
     python3 feature_extraction.py
     ```
 
 
 
-4. Categorize restaurants based on relevant features
-
-    **`./src/restaurant_clustering.py`**
+4. Further categorize restaurants into subcategories base on selected features in ```features_review.txt```
+    * [rest_sub_clustering.py](https://github.com/JuliaHsu/Measure-Cultural-Distance-by-Analyzing-Temporal-Patterns-of-Food-Drink-Preference-in-YELP/blob/master/src/rest_sub_clustering.py)
 
     #### Determine number of clusters K
     Use elbow method to determine number of clusters
 
     ```
-    python3 restaurant_clustering.py
+    python3 rest_sub_clustering.py
     ```
-
+5. Measure Clutural similarties and boundaries at different scales with pairwise cosine similarties
+    * [get_cult_bound.py](https://github.com/JuliaHsu/Measure-Cultural-Distance-by-Analyzing-Temporal-Patterns-of-Food-Drink-Preference-in-YELP/blob/master/src/get_cult_bound.py)
+     ```
+    python3 get_cult_bound.py
+    ```
 <!-- 
 ## Deployment
 
